@@ -98,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
             // different from transform.position (gloabl coordinates)
             // refers to the local position (0,0,0) wrt to its parents Enemies(as seen in EnemyMovement)
             // Note: Why doesnt this restart to default position?
+            // Goomba needs to be relative to the enemies parent group
             eachChild.transform.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
         }
         // reset score
