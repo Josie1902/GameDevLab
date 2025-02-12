@@ -5,7 +5,7 @@ using UnityEngine;
 public class BlockSpawnController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject coin; // Assign the Coin object in Unity Inspector
+    public GameObject coin;
     private Vector3 startPosition;
     private bool hit = false;
     public AudioSource coinAudio;
@@ -13,7 +13,7 @@ public class BlockSpawnController : MonoBehaviour
     void Start()
     {
         startPosition = coin.transform.position;
-        coin.SetActive(false); // Hide the coin at the start
+        coin.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -23,11 +23,9 @@ public class BlockSpawnController : MonoBehaviour
             hit = true;
             Debug.Log("Mario hits the block!");
 
-            // Activate the coin
             coin.SetActive(true);
             coinAudio.PlayOneShot(coinAudio.clip);
 
-            // Start the coin movement coroutine
             StartCoroutine(CoinMovements());
         }
     }
@@ -35,7 +33,7 @@ public class BlockSpawnController : MonoBehaviour
     IEnumerator CoinMovements()
     {
         float elapsedTime = 0f;
-        float duration = 0.3f; // Adjust duration for smooth movement
+        float duration = 0.3f;
         Vector3 peakPosition = startPosition + Vector3.up * 0.7f;
 
         // Move coin upwards

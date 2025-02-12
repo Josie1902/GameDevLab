@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class RewardController : MonoBehaviour
 {
-    public GameObject coin; // Assign the Coin object in Unity Inspector
-    public Sprite usedBlockSprite; // Assign a "disabled" sprite in Unity
-    private SpriteRenderer spriteRenderer; // Assign the block's sprite renderer
+    public GameObject coin;
+    public Sprite usedBlockSprite;
+    private SpriteRenderer spriteRenderer;
 
     private Vector3 startPosition;
     private bool hit = false;
@@ -15,8 +15,8 @@ public class RewardController : MonoBehaviour
 
     void Start()
     {
-        box = GetComponent<Rigidbody2D>(); // Get Rigidbody2D component
-        springJoint = GetComponent<SpringJoint2D>(); // Get SpringJoint2D component
+        box = GetComponent<Rigidbody2D>();
+        springJoint = GetComponent<SpringJoint2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         startPosition = coin.transform.position;
         coin.SetActive(false); // Hide the coin at the start
@@ -29,7 +29,6 @@ public class RewardController : MonoBehaviour
             hit = true;
             Debug.Log("Mario hits the block!");
 
-            // Activate the coin
             coin.SetActive(true);
             coinAudio.PlayOneShot(coinAudio.clip);
 
@@ -48,14 +47,14 @@ public class RewardController : MonoBehaviour
         Animator animator = GetComponent<Animator>();
         animator.enabled = false;
         spriteRenderer.sprite = usedBlockSprite;
-        box.bodyType = RigidbodyType2D.Static; // Stop movement
-        springJoint.enabled = false; // Disable spring
+        box.bodyType = RigidbodyType2D.Static;
+        springJoint.enabled = false;
     }
 
     IEnumerator CoinMovements()
     {
         float elapsedTime = 0f;
-        float duration = 0.3f; // Adjust duration for smooth movement
+        float duration = 0.3f;
         Vector3 peakPosition = startPosition + Vector3.up * 0.7f;
 
         // Move coin upwards
