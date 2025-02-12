@@ -5,7 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Enemies
+  - Obstacles
   - Enemy
+  - BottomCollider
   layers:
   - Default
   - TransparentFX
@@ -13,8 +16,8 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
+  - Enemies
+  - Obstacles
   - 
   - 
   - 
