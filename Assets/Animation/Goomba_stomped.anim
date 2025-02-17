@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mario_die
+  m_Name: Goomba_stomped
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -44735279, guid: f1bde3f95d8d049e59a4208ea4358c51, type: 3}
-    - time: 1
-      value: {fileID: -44735279, guid: f1bde3f95d8d049e59a4208ea4358c51, type: 3}
+      value: {fileID: 1200720715, guid: 82bc45c4496284f4c823d1b837f65ec4, type: 3}
+    - time: 0.083333336
+      value: {fileID: 1200720715, guid: 82bc45c4496284f4c823d1b837f65ec4, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,14 +46,14 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -44735279, guid: f1bde3f95d8d049e59a4208ea4358c51, type: 3}
-    - {fileID: -44735279, guid: f1bde3f95d8d049e59a4208ea4358c51, type: 3}
+    - {fileID: 1200720715, guid: 82bc45c4496284f4c823d1b837f65ec4, type: 3}
+    - {fileID: 1200720715, guid: 82bc45c4496284f4c823d1b837f65ec4, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.0166667
+    m_StopTime: 0.1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -74,14 +74,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: PlayDeathImpulse
+    functionName: PlayStompedSound
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1
-    functionName: GameOverScene
+  - time: 0.083333336
+    functionName: TriggerIntEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

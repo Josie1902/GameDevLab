@@ -6,7 +6,6 @@ using TMPro;
 public class JumpOverGoombas : MonoBehaviour
 {
     public Transform enemyLocation;
-    public TMP_Text scoreText;
     private bool onGroundState;
 
     [System.NonSerialized]
@@ -16,10 +15,11 @@ public class JumpOverGoombas : MonoBehaviour
     public Vector3 boxSize;
     public float maxDistance;
     public LayerMask layerMask;
+    GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
-
+        gameManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -42,9 +42,7 @@ public class JumpOverGoombas : MonoBehaviour
             if (Mathf.Abs(transform.position.x - enemyLocation.position.x) < 0.2f)
             {
                 countScoreState = false;
-                score++;
-                scoreText.text = "Score: " + score.ToString();
-                Debug.Log(score);
+                // gameManager.IncreaseScore(1);
             }
         }
     }

@@ -30,6 +30,13 @@ public class BlockSpawnController : MonoBehaviour
         }
     }
 
+    public void GameRestart()
+    {
+        coin.transform.position = startPosition;
+        hit = false;
+    }
+
+
     IEnumerator CoinMovements()
     {
         float elapsedTime = 0f;

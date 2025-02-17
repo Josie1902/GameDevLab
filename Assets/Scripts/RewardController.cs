@@ -5,20 +5,27 @@ public class RewardController : MonoBehaviour
 {
     public GameObject coin;
     public Sprite usedBlockSprite;
-    private SpriteRenderer spriteRenderer;
 
     private Vector3 startPosition;
+    private Vector3 boxStartPosition;
+
     private bool hit = false;
+    public GameObject reward;
     private Rigidbody2D box;
     private SpringJoint2D springJoint;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
+
     public AudioSource coinAudio;
 
     void Start()
     {
-        box = GetComponent<Rigidbody2D>();
-        springJoint = GetComponent<SpringJoint2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        box = reward.GetComponent<Rigidbody2D>();
+        springJoint = reward.GetComponent<SpringJoint2D>();
+        animator = reward.GetComponent<Animator>();
+        spriteRenderer = reward.GetComponent<SpriteRenderer>();
         startPosition = coin.transform.position;
+        boxStartPosition = box.transform.position;
         coin.SetActive(false); // Hide the coin at the start
     }
 
@@ -40,11 +47,22 @@ public class RewardController : MonoBehaviour
         }
     }
 
+    public void GameRestart()
+    {
+        // reset animation
+        animator.enabled = true;
+        animator.Play("Reward_blinking");
+        box.bodyType = RigidbodyType2D.Dynamic;
+        springJoint.enabled = true;
+        box.transform.position = boxStartPosition;
+        coin.transform.position = startPosition;
+        hit = false;
+    }
+
     IEnumerator DisableQuestionBox()
     {
         // Wait until the block stops moving
         yield return new WaitForSeconds(0.5f);
-        Animator animator = GetComponent<Animator>();
         animator.enabled = false;
         spriteRenderer.sprite = usedBlockSprite;
         box.bodyType = RigidbodyType2D.Static;

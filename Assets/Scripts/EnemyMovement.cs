@@ -14,12 +14,18 @@ public class EnemyMovement : MonoBehaviour
     private Vector2 velocity;
 
     private Rigidbody2D enemyBody;
+    public AudioSource audioSource;
+    private Animator goombaAnimator;
+    private Collider2D goombaCollider;
+    public GameObject goomba;
 
     void Start()
     {
         enemyBody = GetComponent<Rigidbody2D>();
         originalX = transform.position.x;
         ComputeVelocity();
+        goombaAnimator = GetComponent<Animator>();
+        goombaCollider = GetComponent<Collider2D>();
     }
     void ComputeVelocity()
     {
@@ -29,10 +35,45 @@ public class EnemyMovement : MonoBehaviour
     {
         enemyBody.MovePosition(enemyBody.position + velocity * Time.fixedDeltaTime);
     }
+
+    public void GameRestart()
+    {
+        goomba.SetActive(true);
+        goombaCollider.enabled = true;
+        goombaAnimator.SetTrigger("gameRestart");
+        transform.localPosition = startPosition;
+        originalX = transform.position.x;
+        moveRight = -1;
+        ComputeVelocity();
+    }
+
     // trigger is enabaled in goomba BoxCollider2D
     void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log(other.gameObject.name);
+    }
+
+    public void Stomp()
+    {
+        goombaAnimator.SetTrigger("stomped");
+        StartCoroutine(DeactivateAfterStompAnimation());
+    }
+
+    private IEnumerator DeactivateAfterStompAnimation()
+    {
+        // Wait for the animation to finish (assumes animation length is 1 second)
+        yield return new WaitForSeconds(0.06f);
+
+        // Now deactivate after animation
+        goombaCollider.enabled = false;
+        goomba.SetActive(false);
+    }
+
+
+    void PlayStompedSound()
+    {
+        // play jump sound
+        audioSource.PlayOneShot(audioSource.clip);
     }
     // Update is called once per frame
     void Update()
