@@ -5,6 +5,7 @@ using TMPro;
 
 public class JumpOverGoombas : MonoBehaviour
 {
+    // Not utilised in Lab3
     public Transform enemyLocation;
     private bool onGroundState;
 
