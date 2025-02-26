@@ -20,6 +20,9 @@ public class CameraController : MonoBehaviour
         offset = this.transform.position.x - player.position.x;
         startX = this.transform.position.x;
         endX = endLimit.transform.position.x - viewportHalfWidth;
+        // reassign current Scene's Mario
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        GameManager.instance.gameRestart.AddListener(GameRestart);
     }
 
     // Update is called once per frame
@@ -29,5 +32,11 @@ public class CameraController : MonoBehaviour
         // check if desiredX is within startX and endX
         if (desiredX > startX && desiredX < endX)
             this.transform.position = new Vector3(desiredX, this.transform.position.y, this.transform.position.z);
+    }
+
+    public void GameRestart()
+    {
+        // reset camera position
+        transform.position = new Vector3(-21.364f, 5.87f, -10);
     }
 }

@@ -7,6 +7,8 @@ public class ActionManager : MonoBehaviour
 {
     public UnityEvent jump;
     public UnityEvent jumpHold;
+    public UnityEvent clickToFire;
+
     public UnityEvent<int> moveCheck;
 
     public void OnJumpHoldAction(InputAction.CallbackContext context)
@@ -62,6 +64,7 @@ public class ActionManager : MonoBehaviour
             Debug.Log("mouse click started");
         else if (context.performed)
         {
+            clickToFire.Invoke();
             Debug.Log("mouse click performed");
         }
         else if (context.canceled)

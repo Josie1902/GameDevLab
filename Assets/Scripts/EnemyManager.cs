@@ -20,7 +20,23 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            child.GetComponent<EnemyMovement>().GameRestart();
+            EnemyMovement goomba = child.GetComponent<EnemyMovement>();
+            ZombieMovement zombie = child.GetComponent<ZombieMovement>();
+            if (goomba != null)
+            {
+                goomba.GameRestart();
+            }
+            if (zombie != null)
+            {
+                zombie.GameRestart();
+            }
         }
     }
+
+    void Awake()
+    {
+        // other instructions
+        GameManager.instance.gameRestart.AddListener(GameRestart);
+    }
+
 }

@@ -57,20 +57,11 @@ public partial class @MarioActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""click"",
                     ""type"": ""Button"",
-                    ""id"": ""d5d593be-7970-46a5-91c0-8fe1b7f99ee5"",
+                    ""id"": ""92dadcb7-79c8-4680-aec9-1aca644dafb6"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""point"",
-                    ""type"": ""Value"",
-                    ""id"": ""75c63d4f-d538-4321-b9d6-34031e1f367c"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -131,47 +122,14 @@ public partial class @MarioActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""15475649-b323-4601-980f-e1b893fd46d8"",
+                    ""id"": ""6407fc0e-d83c-44a1-ab68-236487e80d66"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";SuperMarioBros"",
+                    ""groups"": "";SuperMarioBros;Keyboard"",
                     ""action"": ""click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""One Modifier"",
-                    ""id"": ""60dcd98e-df9e-4646-981a-1d9a6481bd44"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""point"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""1c31e4ae-10d2-4c8c-b791-fd4ef8d865af"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";SuperMarioBros"",
-                    ""action"": ""point"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""30dfc78d-3861-4d53-b395-a7685e777d57"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";SuperMarioBros"",
-                    ""action"": ""point"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -212,7 +170,6 @@ public partial class @MarioActions: IInputActionCollection2, IDisposable
         m_gameplay_jump = m_gameplay.FindAction("jump", throwIfNotFound: true);
         m_gameplay_jumphold = m_gameplay.FindAction("jumphold", throwIfNotFound: true);
         m_gameplay_click = m_gameplay.FindAction("click", throwIfNotFound: true);
-        m_gameplay_point = m_gameplay.FindAction("point", throwIfNotFound: true);
     }
 
     ~@MarioActions()
@@ -283,7 +240,6 @@ public partial class @MarioActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_gameplay_jump;
     private readonly InputAction m_gameplay_jumphold;
     private readonly InputAction m_gameplay_click;
-    private readonly InputAction m_gameplay_point;
     public struct GameplayActions
     {
         private @MarioActions m_Wrapper;
@@ -292,7 +248,6 @@ public partial class @MarioActions: IInputActionCollection2, IDisposable
         public InputAction @jump => m_Wrapper.m_gameplay_jump;
         public InputAction @jumphold => m_Wrapper.m_gameplay_jumphold;
         public InputAction @click => m_Wrapper.m_gameplay_click;
-        public InputAction @point => m_Wrapper.m_gameplay_point;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -314,9 +269,6 @@ public partial class @MarioActions: IInputActionCollection2, IDisposable
             @click.started += instance.OnClick;
             @click.performed += instance.OnClick;
             @click.canceled += instance.OnClick;
-            @point.started += instance.OnPoint;
-            @point.performed += instance.OnPoint;
-            @point.canceled += instance.OnPoint;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -333,9 +285,6 @@ public partial class @MarioActions: IInputActionCollection2, IDisposable
             @click.started -= instance.OnClick;
             @click.performed -= instance.OnClick;
             @click.canceled -= instance.OnClick;
-            @point.started -= instance.OnPoint;
-            @point.performed -= instance.OnPoint;
-            @point.canceled -= instance.OnPoint;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -377,6 +326,5 @@ public partial class @MarioActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnJumphold(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
-        void OnPoint(InputAction.CallbackContext context);
     }
 }

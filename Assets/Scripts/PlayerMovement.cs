@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,12 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public float maxSpeed = 20;
     public float upSpeed = 5;
     private bool onGroundState = true;
-    private SpriteRenderer marioSprite;
     private bool faceRightState = true;
 
-    public GameObject enemies;
-    // TODO: restart screen to original posiiton
-    public Transform gameCamera;
     // game over
     // for animation
     public Animator marioAnimator;
@@ -24,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     // jumping sound
     public AudioSource marioAudio;
     public AudioClip marioDeath;
+    public AudioClip marioWin;
+
     public float deathImpulse = 15;
 
     // state
@@ -34,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private bool jumpedState = false;
     GameManager gameManager;
     private Collider2D marioCollider;
+
     void PlayJumpSound()
     {
         // play jump sound
@@ -43,14 +42,29 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         // set to 30fps
-        marioSprite = GetComponent<SpriteRenderer>();
         Application.targetFrameRate = 30;
         marioBody = GetComponent<Rigidbody2D>();
         marioCollider = GetComponent<Collider2D>();
         // update animator state
         marioAnimator.SetBool("onGround", onGroundState);
         gameManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
+        // SceneManager.activeSceneChanged += SetStartingPosition;
     }
+
+    public void SetStartingPosition(Scene current, Scene next)
+    {
+        if (next.name == "World1-2")
+        {
+            // change the position accordingly in your World-1-2 case
+            this.transform.position = new Vector3(-23.361f, 4.82f, 0);
+        }
+    }
+
+    void Awake()
+    {
+        GameManager.instance.gameRestart.AddListener(GameRestart);
+    }
+
 
     // Update is called once per frame
 
@@ -115,12 +129,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public bool isFlip()
+    {
+        return faceRightState;
+    }
+
     void FlipMarioSprite(int value)
     {
+        Vector3 scale = transform.localScale;
+
         if (value == -1 && faceRightState)
         {
             faceRightState = false;
-            marioSprite.flipX = true;
+            scale.x = -Mathf.Abs(scale.x);
             if (marioBody.velocity.x > 0.05f)
                 marioAnimator.SetTrigger("onSkid");
 
@@ -129,10 +150,11 @@ public class PlayerMovement : MonoBehaviour
         else if (value == 1 && !faceRightState)
         {
             faceRightState = true;
-            marioSprite.flipX = false;
+            scale.x = Mathf.Abs(scale.x);
             if (marioBody.velocity.x < -0.05f)
                 marioAnimator.SetTrigger("onSkid");
         }
+        transform.localScale = scale;
     }
 
 
@@ -189,6 +211,25 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Mario collided with goomba!");
             }
         }
+        if (other.gameObject.CompareTag("Weapon"))
+        {
+            other.GetComponent<Weapon>().PickupGun();
+        }
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            // Mario dies if hit from the side or bottom
+            marioAnimator.Play("Mario_die");
+            marioAudio.PlayOneShot(marioDeath);
+            alive = false;
+            Debug.Log("Mario collided with goomba!");
+        }
+        if (other.gameObject.CompareTag("Flag"))
+        {
+            Debug.Log("You Survived!");
+            marioAudio.PlayOneShot(marioWin);
+            Time.timeScale = 0.0f;
+            gameManager.GameWon();
+        }
     }
 
 
@@ -200,18 +241,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void GameRestart()
     {
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+
         // reset position
         marioBody.transform.position = new Vector3(-21.62145f, 4.82f, 0.0f);
         // reset sprite direction
         faceRightState = true;
-        marioSprite.flipX = false;
+
+        FlipMarioSprite(1);
 
         // reset animation
         marioAnimator.SetTrigger("gameRestart");
         alive = true;
-
-        // reset camera position
-        gameCamera.position = new Vector3(-21.364f, 5.87f, -10);
     }
 
 }

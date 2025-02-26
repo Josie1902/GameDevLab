@@ -9,6 +9,10 @@ TagManager:
   - Obstacles
   - Enemy
   - Manager
+  - Weapon
+  - Bullet
+  - Ammo
+  - Flag
   layers:
   - Default
   - TransparentFX
@@ -18,7 +22,7 @@ TagManager:
   - UI
   - Enemies
   - Obstacles
-  - 
+  - Interactive
   - 
   - 
   - 
